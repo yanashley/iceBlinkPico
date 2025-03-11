@@ -4,7 +4,7 @@ module memory #(
     parameter INIT_FILE = ""
 )(
     input logic     clk,
-    input logic     [7:0] read_address,
+    input logic     [6:0] read_address,
     input logic     [1:0] read_state,
     output logic    [9:0] read_data
 );
@@ -22,12 +22,17 @@ module memory #(
     end
 
     always_ff @(posedge clk) begin
-        // if statements depending on state
+        // adjust computes to match 10-bit decimal output
+        // data values start at 256, output is 512
         case (read_state)
-            PEAK: read_data <= sample_memory[read_address];
-            FALL: read_data <= 512 - sample_memory[read_address];
-            TROUGH: read_data <= 0 - sample_memory[read_address];
-            RISE: read_data <= sample_memory[read_address] - 512;
+            PEAK: read_data <= 256 + sample_memory[read_address];
+            FALL: read_data <= 256 + sample_memory[127 - read_address];
+            TROUGH: read_data <= 256 - sample_memory[read_address];
+            RISE: read_data <= 256 - sample_memory[127 - read_address];
+            // PEAK: read_data <= sample_memory[read_address];
+            // FALL: read_data <= sample_memory[127 - read_address];
+            // TROUGH: read_data <= -sample_memory[read_address];
+            // RISE: read_data <= -sample_memory[127 - read_address];
         endcase
 
 

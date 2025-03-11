@@ -19,10 +19,10 @@ module top(
     localparam FALL = 2'b01;
     localparam TROUGH = 2'b10;
     localparam RISE = 2'b11;
-    logic current_state = PEAK;
+    logic [1:0] current_state = PEAK;
 
     logic [8:0] count = 0;
-    logic [7:0] address = 0;
+    logic [6:0] address = 0;
     logic [9:0] data;
 
     memory #(
