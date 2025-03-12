@@ -2,8 +2,13 @@ import numpy as np
 
 # adjusted to capture just 1/4 of sine wave, with sample values scaled to 9-bits
 x = np.array(range(128))
-y = list(np.round(511 * 0.5 * (1. + np.sin(2. * np.pi * x / 512.))))
+y = list(np.round(512 * 0.5 * (1. + np.sin(2. * np.pi * x / 512.))))
 y = [int(v) for v in y]
+
+# f = open('sine_512_dec.txt', 'w')
+# for v in y:
+#     f.write(f'{v}\n')
+# f.close()
 
 f = open('sine.txt', 'w')
 for v in y:

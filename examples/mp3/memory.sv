@@ -25,10 +25,10 @@ module memory #(
         // adjust computes to match 10-bit decimal output
         // data values start at 256, output is 512
         case (read_state)
-            PEAK: read_data <= 256 + sample_memory[read_address];
-            FALL: read_data <= 256 + sample_memory[127 - read_address];
-            TROUGH: read_data <= 256 - sample_memory[read_address];
-            RISE: read_data <= 256 - sample_memory[127 - read_address];
+            PEAK: read_data <= sample_memory[read_address] + sample_memory[read_address];
+            FALL: read_data <= sample_memory[127 - read_address] + sample_memory[127 - read_address];
+            TROUGH: read_data <= 1024 - sample_memory[read_address] - sample_memory[read_address];
+            RISE: read_data <= 1024 - sample_memory[127 - read_address] - sample_memory[127 - read_address];
             // PEAK: read_data <= sample_memory[read_address];
             // FALL: read_data <= sample_memory[127 - read_address];
             // TROUGH: read_data <= -sample_memory[read_address];
