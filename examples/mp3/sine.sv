@@ -53,7 +53,6 @@ module top(
         
     end
 
-    // thought is to keep this the same, since 0 should automatically allocate
     assign {_48b, _45a, _49a, _3b, _5a, _0a, _2a, _4a, _6a, _9b} = data;
 
 endmodule

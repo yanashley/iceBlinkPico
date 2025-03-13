@@ -13,8 +13,7 @@ module memory #(
     localparam TROUGH = 2'b10;
     localparam RISE = 2'b11;
 
-    // Declare memory array for storing 512 10-bit samples of a sine function
-    // --> memory array for storing 128 9-bit samples of a sine function
+    // Declare memory array for storing 128 9-bit samples of a sine function
     logic [8:0] sample_memory [0:127];
 
     initial if (INIT_FILE) begin
@@ -23,16 +22,11 @@ module memory #(
 
     always_ff @(posedge clk) begin
         // adjust computes to match 10-bit decimal output
-        // data values start at 256, output is 512
         case (read_state)
-            PEAK: read_data <= sample_memory[read_address] + sample_memory[read_address];
-            FALL: read_data <= sample_memory[127 - read_address] + sample_memory[127 - read_address];
+            PEAK: read_data <= sample_memory[read_address] + sample_memory[read_address] - 1;
+            FALL: read_data <= sample_memory[127 - read_address] + sample_memory[127 - read_address] - 1;
             TROUGH: read_data <= 1024 - sample_memory[read_address] - sample_memory[read_address];
             RISE: read_data <= 1024 - sample_memory[127 - read_address] - sample_memory[127 - read_address];
-            // PEAK: read_data <= sample_memory[read_address];
-            // FALL: read_data <= sample_memory[127 - read_address];
-            // TROUGH: read_data <= -sample_memory[read_address];
-            // RISE: read_data <= -sample_memory[127 - read_address];
         endcase
 
 
